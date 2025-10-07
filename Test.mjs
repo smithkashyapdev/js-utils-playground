@@ -1,0 +1,40 @@
+import { composeAsync, fetchWithTimeout, PromisePool, MyPromiseAll, MyPromiseAny } from "./utils/index.js";
+
+const fn1 = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(5);
+    }, 500);
+  });
+
+const fn2 = (value) => value * 10
+const fn3 = (value) => value * 15
+
+//composeAsync(fn1,fn2,fn3)().then((res)=> console.log(res))
+
+const tasks = [
+  () => new Promise(res => setTimeout(() => res("A done"), 3000)),
+  () => new Promise(res => setTimeout(() => res("B done"), 2000)),
+  () => new Promise(res => setTimeout(() => res("C done"), 1000)),
+  () => new Promise(res => setTimeout(() => res("D done"), 500))
+]
+
+const prom = PromisePool(tasks, 2)
+prom.then((result)=>{
+console.log('result -->', result)
+})
+
+
+MyPromiseAll([
+  Promise.resolve(1),
+  2,
+  new Promise((res) => setTimeout(() => res(3), 100))
+]).then(console.log);
+
+const p1 = Promise.reject("Error 1");
+const p2 = new Promise((res) => setTimeout(res, 100, "Success"));
+const p3 = Promise.reject("Error 3");
+
+MyPromiseAny([p1, p3])
+  .then((value) => console.log("MyPromiseAny Resolved:", value))
+  .catch((err) => console.log("MyPromiseAny Rejected:", err.errors));
