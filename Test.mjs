@@ -1,4 +1,4 @@
-import { composeAsync, fetchWithTimeout, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace } from "./utils/index.js";
+import { composeAsync, fetchWithTimeout, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries } from "./utils/index.js";
 
 const fn1 = () =>
   new Promise((resolve, reject) => {
@@ -47,3 +47,24 @@ const p6 = new Promise((res) => setTimeout(() => res("Another"), 50));
 MyPromiseRace([p4, p5, p6])
   .then((value) => console.log("MyPromiseRace Resolved:", value))
   .catch((err) => console.log("MyPromiseRace Rejected:", err));  
+
+
+const promises = [
+  Promise.resolve(10),
+  Promise.reject("Error occurred"),
+  Promise.resolve(30)
+];
+
+MyPromiseSettled(promises).then((results) => {
+  console.log(results);
+});  
+
+new MyCustomPromise((resolve, reject) => {
+  setTimeout(() => resolve("Hello"), 500);
+}).then(console.log);
+
+const p7 = Promise.resolve('s');
+const p8 = new Promise((r) => setTimeout(() => r('m'), 500));
+const p9 = Promise.resolve('ith');
+
+AsyncSeries([p7, p8, p9]).then(console.log)

@@ -5,3 +5,6 @@ export * from './custom-promise/MyPromiseAll.js';
 export * from './custom-promise/MyPromiseAny.js'
 export * from './custom-promise/MyPomiseRace.js'
 export * from './custom-promise/MyPomiseRace.js'
+export * from './custom-promise/MyPromiseSettled.js'
+export * from './custom-promise/MyCustomPromise.js'
+export * from './custom-promise/async-series/AsyncSerial.js'
