@@ -23,5 +23,7 @@ export * from './ds/StackMaxMin.js'
 export * from './ds/Lrucache.js'
 export * from './ds/debounceandthrottle.js'
 export * from './ds/HashSetStore.js'
-
 export * from './ds/filter-multi-dimensional-array.js'
+
+export * from './utility/streams.js'
+export * from './utility/util.js'

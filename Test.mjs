@@ -1,4 +1,4 @@
-import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray } from "./utils/index.js";
+import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
 
 // const fn1 = () =>
@@ -241,4 +241,14 @@ const flattenfilteredArray = filterMultiDimensionalArray(multiDimensionalArray, 
   return typeof element === 'string'
 });
 
-console.dir(flattenfilteredArray, { depth: null })
+//console.dir(flattenfilteredArray, { depth: null })
+
+const fn = (pararm) => {
+  return 2*pararm
+}
+
+const memoizedFn = memoize(fn)
+console.log(memoizedFn(1,'smith'))
+console.log(memoizedFn(2,'kashyap'))
+console.log(memoizedFn(3))
+console.log(memoizedFn(4))
