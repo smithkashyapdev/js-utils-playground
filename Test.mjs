@@ -1,5 +1,6 @@
-import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle } from "./utils/index.js";
+import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
+
 // const fn1 = () =>
 //   new Promise((resolve, reject) => {
 //     setTimeout(() => {
@@ -143,9 +144,9 @@ import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleA
 //   .catch((err) => console.error("❌ Rejected:", err));  
 
 
-const taskA = new Task("A", [], () => "A");
-const taskB = new Task("B", [taskA], (aResult) => "B");
-const taskC = new Task("C", [taskB, taskA], (bResult, aResult) => "C");
+// const taskA = new Task("A", [], () => "A");
+// const taskB = new Task("B", [taskA], (aResult) => "B");
+// const taskC = new Task("C", [taskB, taskA], (bResult, aResult) => "C");
 
 // TaskRunner([taskC, taskB, taskA])
 //   .then(console.log)
@@ -210,24 +211,34 @@ const taskC = new Task("C", [taskB, taskA], (bResult, aResult) => "C");
 // console.log("=====================")
 // lruCache.all()
 
-const debounceFn = debounce((value) => {
-  console.log('debunced', value)
-}, 300)
+// const debounceFn = debounce((value) => {
+//   console.log('debunced', value)
+// }, 300)
 
-for (let index = 0; index < 100; index++) {
-  setTimeout(() => {
-    debounceFn(`${index}`)
-  }, 100)
+// for (let index = 0; index < 100; index++) {
+//   setTimeout(() => {
+//     debounceFn(`${index}`)
+//   }, 100)
 
-}
+// }
 
-const throttleFn = throttle((value) => {
-  console.log(`value` + value)
-}, 300)
+// const throttleFn = throttle((value) => {
+//   console.log(`value` + value)
+// }, 300)
 
-for (let index = 0; index < 100; index++) {
-  setTimeout(() => {
-    throttleFn(`${index}`)
-  }, index * 100)
+// for (let index = 0; index < 100; index++) {
+//   setTimeout(() => {
+//     throttleFn(`${index}`)
+//   }, index * 100)
 
-}
+// }
+
+const multiDimensionalArray = [
+  [1,[2,[3, "hello"]], "world"]
+];
+
+const flattenfilteredArray = filterMultiDimensionalArray(multiDimensionalArray, (element)=>{
+  return typeof element === 'string'
+});
+
+console.dir(flattenfilteredArray, { depth: null })
