@@ -1,4 +1,4 @@
-import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize } from "./utils/index.js";
+import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
 
 // const fn1 = () =>
@@ -252,3 +252,42 @@ console.log(memoizedFn(1,'smith'))
 console.log(memoizedFn(2,'kashyap'))
 console.log(memoizedFn(3))
 console.log(memoizedFn(4))
+
+const onboardingManger = new UpiOnboardingManager()
+const detail = onboardingManger
+    .fetchVmn({ vmn: '1234567890' })
+    .tokenGeneration({ tokenType: 'auth' })
+    .sendSMS('1234567890')
+    .bindDevice({ deviceId: 'device123' })
+    .startOTPListening()
+    .verifyOTP('123456')
+    .completeOnboarding()
+    .getOnboardingUserDetail();
+//console.log(detail)
+
+const onboardingMangerFn = new UpiOnboardingManagerFn()
+const detailFn = onboardingMangerFn
+    .fetchVmn({ vmn: '1234567890' })
+    .tokenGeneration({ tokenType: 'auth' })
+    .sendSMS('1234567890')
+    .bindDevice({ deviceId: 'device123' })
+    .startOTPListening()
+    .verifyOTP('123456')
+    .completeOnboarding()
+    .getOnboardingUserDetail();
+//console.log(detailFn)
+
+const total = sumWithLimit(5,3)(2,3)
+console.log( total)
+
+const sumtotalk = sumtotal(10)(20)(30)
+console.log( `${sumtotal(10)(20)(30)}`)
+
+function testValueOf() {
+  this.name = "smith"
+  this.age = 30
+}
+testValueOf.cancel = function() {
+  console.log('canceled', this.name)
+}
+console.log('testValueOf', testValueOf.cancel())

@@ -27,3 +27,7 @@ export * from './ds/filter-multi-dimensional-array.js'
 
 export * from './utility/streams.js'
 export * from './utility/util.js'
+export * from './utility/method-chaning.js'
+
+export * from './utility/timeout/timeout-all-cancelable.js'
+export * from './utility/timeout/timeout-cancelable.js'
