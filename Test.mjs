@@ -1,4 +1,4 @@
-import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal } from "./utils/index.js";
+import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal, format24HourTime, format12Hour, deepFlattenObject, shallowMerge, deepFreeze, deepSeal, BrowserHistory } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
 
 // const fn1 = () =>
@@ -234,60 +234,124 @@ import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleA
 // }
 
 const multiDimensionalArray = [
-  [1,[2,[3, "hello"]], "world"]
+  [1, [2, [3, "hello"]], "world"]
 ];
 
-const flattenfilteredArray = filterMultiDimensionalArray(multiDimensionalArray, (element)=>{
+const flattenfilteredArray = filterMultiDimensionalArray(multiDimensionalArray, (element) => {
   return typeof element === 'string'
 });
 
 //console.dir(flattenfilteredArray, { depth: null })
 
 const fn = (pararm) => {
-  return 2*pararm
+  return 2 * pararm
 }
 
 const memoizedFn = memoize(fn)
-console.log(memoizedFn(1,'smith'))
-console.log(memoizedFn(2,'kashyap'))
+console.log(memoizedFn(1, 'smith'))
+console.log(memoizedFn(2, 'kashyap'))
 console.log(memoizedFn(3))
 console.log(memoizedFn(4))
 
 const onboardingManger = new UpiOnboardingManager()
 const detail = onboardingManger
-    .fetchVmn({ vmn: '1234567890' })
-    .tokenGeneration({ tokenType: 'auth' })
-    .sendSMS('1234567890')
-    .bindDevice({ deviceId: 'device123' })
-    .startOTPListening()
-    .verifyOTP('123456')
-    .completeOnboarding()
-    .getOnboardingUserDetail();
+  .fetchVmn({ vmn: '1234567890' })
+  .tokenGeneration({ tokenType: 'auth' })
+  .sendSMS('1234567890')
+  .bindDevice({ deviceId: 'device123' })
+  .startOTPListening()
+  .verifyOTP('123456')
+  .completeOnboarding()
+  .getOnboardingUserDetail();
 //console.log(detail)
 
 const onboardingMangerFn = new UpiOnboardingManagerFn()
 const detailFn = onboardingMangerFn
-    .fetchVmn({ vmn: '1234567890' })
-    .tokenGeneration({ tokenType: 'auth' })
-    .sendSMS('1234567890')
-    .bindDevice({ deviceId: 'device123' })
-    .startOTPListening()
-    .verifyOTP('123456')
-    .completeOnboarding()
-    .getOnboardingUserDetail();
+  .fetchVmn({ vmn: '1234567890' })
+  .tokenGeneration({ tokenType: 'auth' })
+  .sendSMS('1234567890')
+  .bindDevice({ deviceId: 'device123' })
+  .startOTPListening()
+  .verifyOTP('123456')
+  .completeOnboarding()
+  .getOnboardingUserDetail();
 //console.log(detailFn)
 
-const total = sumWithLimit(5,3)(2,3)
-console.log( total)
+const total = sumWithLimit(5, 3)(2, 3)
+console.log(total)
 
 const sumtotalk = sumtotal(10)(20)(30)
-console.log( `${sumtotal(10)(20)(30)}`)
+console.log(`${sumtotal(10)(20)(30)}`)
 
 function testValueOf() {
   this.name = "smith"
   this.age = 30
 }
-testValueOf.cancel = function() {
+testValueOf.cancel = function () {
   console.log('canceled', this.name)
 }
 console.log('testValueOf', testValueOf.cancel())
+
+console.log(format24HourTime("12:45 PM"))
+console.log(format12Hour("12:45"))
+
+console.log('deepFlattenObject', deepFlattenObject({
+    user: {
+        name: "Smith",
+        skills: ["JS", "RN"],
+        address: {
+            city: "Delhi"
+        }
+    }
+}))
+
+const a = {
+  name: 'parshant',
+  age:23,
+  detail: {
+    address: {
+      street: 1,
+      address1: 'sector 49'
+    }
+  }
+
+}
+const b = {
+  name: 'rishabh',
+  age: 24,
+   detail: {
+    address: {
+      street: 2,
+      address1: 'sector 43'
+    }
+  }
+}
+//console.log('shallowMerge(a, b)', shallowMerge(a, b))
+
+deepSeal(a)
+//a.detail.street = 3
+//a.detail['address2'] = 'new address'
+deepFreeze(a)
+b.detail.street = 3
+b.detail['address2'] = 'new address'
+
+const { visit, current, forward, backward } = BrowserHistory()
+visit('A')
+console.log(current())
+visit('B')
+console.log(current())
+visit('C')
+console.log(current())
+backward()
+console.log(current())
+visit('D')
+console.log(current())
+
+
+// console.log('******')
+// console.log('---deepSeal', b)
+// console.log('******')
+
+// console.log('******')
+// console.log('---deepFreeze', a)
+// console.log('******')
