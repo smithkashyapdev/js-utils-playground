@@ -291,3 +291,108 @@ export const BrowserHistory = () => {
     }
 
 }
+
+export const GroupBy = (list, keyFinder) => {
+    return list.reduce((acc, item) => {
+        const key = typeof keyFinder === 'function' ? keyFinder(item) : item[keyFinder]
+        if (!acc[key]) {
+            acc[key] = [item]
+        } else {
+            acc[key] = [...acc[key], item]
+        }
+
+        return acc
+    }, {})
+}
+
+export const deepEqual = (a, b) => {
+    if (Object.is(a, b)) return true
+
+    if (a === null || b === null) return false
+    if (typeof a !== 'object' || typeof b !== 'object') return false
+
+    if (Array.isArray(a)) {
+        if (!Array.isArray(b) || a.length !== b.length) return false
+        return a.every((v, i) => deepEqual(v, b[i]))
+    }
+
+    const keysA = Object.keys(a)
+    const keysB = Object.keys(b)
+
+    if (keysA.length !== keysB.length) return false
+
+    return keysA.every(key =>
+        Object.prototype.hasOwnProperty.call(b, key) &&
+        deepEqual(a[key], b[key])
+    )
+}
+
+export const addArrayListener = (arr) => {
+    const arrayProtoWithEvent = Object.create(Array.prototype)
+    arrayProtoWithEvent.listeners = new Map()
+
+    arrayProtoWithEvent.addListener = function (key, cb) {
+        const list = this.listeners.has(key) ? this.listeners.get(key) : []
+        list.push(cb)
+        this.listeners.set(key, list)
+    }
+
+    arrayProtoWithEvent.pushWithEvent = function (key, value) {
+        const list = this.listeners.has(key) ? this.listeners.get(key) : []
+        this.push(value)
+        list.forEach((item) => item(key, value, this))
+    }
+
+    arrayProtoWithEvent.popWithEvent = function (key) {
+        const list = this.listeners.has(key) ? this.listeners.get(key) : []
+        const last = this.pop()
+        list.forEach((item) => item(key, last, this))
+    }
+
+    arrayProtoWithEvent.triggerEvent = function (key, ...args) {
+        const list = this.listeners.has(key) ? this.listeners.get(key) : []
+        list.forEach((item) => item(args))
+    }
+
+    arrayProtoWithEvent.removeListener = function (key, cb) {
+        const list = this.listeners.has(key) ? this.listeners.get(key) : []
+        const index = list.findIndex((item) => Object.is(cb, item))
+        list.splice(index, 1)
+    }
+
+
+    Object.setPrototypeOf(arr, arrayProtoWithEvent)
+}
+
+
+
+export const createTree = (array) => {
+    const result = []
+    console.log(array)
+    let tempArray = array
+    array.forEach((item) => {
+        const [child, parent] = item
+        const start = `${parent}->${child}`
+        const value = makeCycle([...array], start)
+        result.push(value)
+    })
+
+    return result
+}
+
+const makeCycle = (array, elementString) => {
+    if (array.length === 0) {
+        return elementString
+    }
+
+    const end = array.pop()
+    const value = makeCycle(array, elementString)
+    const [child, parent] = end
+    let cycleString = ""
+    if (value.startsWith(child)) {
+        cycleString = parent.concat("->").concat(value)
+    }else {
+        cycleString = value
+    }
+    return cycleString
+}

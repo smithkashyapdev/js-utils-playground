@@ -1,4 +1,4 @@
-import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal, format24HourTime, format12Hour, deepFlattenObject, shallowMerge, deepFreeze, deepSeal, BrowserHistory } from "./utils/index.js";
+import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal, format24HourTime, format12Hour, deepFlattenObject, shallowMerge, deepFreeze, deepSeal, BrowserHistory, GroupBy, deepEqual, addArrayListener, createTree } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
 
 // const fn1 = () =>
@@ -309,21 +309,15 @@ const a = {
   name: 'parshant',
   age:23,
   detail: {
-    address: {
-      street: 1,
-      address1: 'sector 49'
-    }
+    mobile: [9878250491, 8010990297, undefined, null, NaN]
   }
 
 }
 const b = {
-  name: 'rishabh',
-  age: 24,
-   detail: {
-    address: {
-      street: 2,
-      address1: 'sector 43'
-    }
+  name: 'parshant',
+  age:23,
+  detail: {
+    mobile: [9878250491, 8010990297, undefined, null, NaN]
   }
 }
 //console.log('shallowMerge(a, b)', shallowMerge(a, b))
@@ -332,8 +326,8 @@ deepSeal(a)
 //a.detail.street = 3
 //a.detail['address2'] = 'new address'
 deepFreeze(a)
-b.detail.street = 3
-b.detail['address2'] = 'new address'
+//b.detail.street = 3
+//b.detail['address2'] = 'new address'
 
 const { visit, current, forward, backward } = BrowserHistory()
 visit('A')
@@ -347,6 +341,40 @@ console.log(current())
 visit('D')
 console.log(current())
 
+console.log(GroupBy(["one", "two", "three"], "length"))
+console.log(deepEqual(a,b))
+
+const attachListenerArray = []
+addArrayListener(attachListenerArray)
+
+attachListenerArray.addListener('added', (event, item, array)=>{
+  console.log('1',event, item, array)
+}) 
+
+attachListenerArray.addListener('added', (event, item, array)=>{
+  console.log('2',event, item, array)
+}) 
+
+attachListenerArray.addListener('added', (event, item, array)=>{
+  console.log('3',event, item, array)
+}) 
+
+attachListenerArray.addListener('added', (event, item, array)=>{
+  console.log('4',event, item, array)
+}) 
+
+attachListenerArray.addListener('remove', (event, item, array)=>{
+  console.log('5',event, item, array)
+}) 
+
+attachListenerArray.addListener('remove', (event, item, array)=>{
+  console.log('6',event, item, array)
+}) 
+
+attachListenerArray.pushWithEvent('added', 4)
+attachListenerArray.pushWithEvent('added', 5)
+attachListenerArray.popWithEvent('remove')
+attachListenerArray.popWithEvent('remove')
 
 // console.log('******')
 // console.log('---deepSeal', b)
@@ -355,3 +383,16 @@ console.log(current())
 // console.log('******')
 // console.log('---deepFreeze', a)
 // console.log('******')
+
+const treeArray = [
+["lion", "cat"],
+["cat", "mammel"],
+["dog", "mammel"],
+["mammel", "animal"],
+["fish", "animal"],
+["shark", "fish"]
+]
+
+const result = createTree(treeArray)
+
+console.log(result)
