@@ -1,5 +1,7 @@
 import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal, format24HourTime, format12Hour, deepFlattenObject, shallowMerge, deepFreeze, deepSeal, BrowserHistory, GroupBy, deepEqual, addArrayListener, createTree } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
+import { sortRecursive } from "./utils/utility/recursion/array-recursion.js";
+import { stackSortRecursive } from "./utils/utility/recursion/stack-recusrion.js";
 
 // const fn1 = () =>
 //   new Promise((resolve, reject) => {
@@ -296,18 +298,18 @@ console.log(format24HourTime("12:45 PM"))
 console.log(format12Hour("12:45"))
 
 console.log('deepFlattenObject', deepFlattenObject({
-    user: {
-        name: "Smith",
-        skills: ["JS", "RN"],
-        address: {
-            city: "Delhi"
-        }
+  user: {
+    name: "Smith",
+    skills: ["JS", "RN"],
+    address: {
+      city: "Delhi"
     }
+  }
 }))
 
 const a = {
   name: 'parshant',
-  age:23,
+  age: 23,
   detail: {
     mobile: [9878250491, 8010990297, undefined, null, NaN]
   }
@@ -315,7 +317,7 @@ const a = {
 }
 const b = {
   name: 'parshant',
-  age:23,
+  age: 23,
   detail: {
     mobile: [9878250491, 8010990297, undefined, null, NaN]
   }
@@ -342,34 +344,34 @@ visit('D')
 console.log(current())
 
 console.log(GroupBy(["one", "two", "three"], "length"))
-console.log(deepEqual(a,b))
+console.log(deepEqual(a, b))
 
 const attachListenerArray = []
 addArrayListener(attachListenerArray)
 
-attachListenerArray.addListener('added', (event, item, array)=>{
-  console.log('1',event, item, array)
-}) 
+attachListenerArray.addListener('added', (event, item, array) => {
+  console.log('1', event, item, array)
+})
 
-attachListenerArray.addListener('added', (event, item, array)=>{
-  console.log('2',event, item, array)
-}) 
+attachListenerArray.addListener('added', (event, item, array) => {
+  console.log('2', event, item, array)
+})
 
-attachListenerArray.addListener('added', (event, item, array)=>{
-  console.log('3',event, item, array)
-}) 
+attachListenerArray.addListener('added', (event, item, array) => {
+  console.log('3', event, item, array)
+})
 
-attachListenerArray.addListener('added', (event, item, array)=>{
-  console.log('4',event, item, array)
-}) 
+attachListenerArray.addListener('added', (event, item, array) => {
+  console.log('4', event, item, array)
+})
 
-attachListenerArray.addListener('remove', (event, item, array)=>{
-  console.log('5',event, item, array)
-}) 
+attachListenerArray.addListener('remove', (event, item, array) => {
+  console.log('5', event, item, array)
+})
 
-attachListenerArray.addListener('remove', (event, item, array)=>{
-  console.log('6',event, item, array)
-}) 
+attachListenerArray.addListener('remove', (event, item, array) => {
+  console.log('6', event, item, array)
+})
 
 attachListenerArray.pushWithEvent('added', 4)
 attachListenerArray.pushWithEvent('added', 5)
@@ -385,14 +387,23 @@ attachListenerArray.popWithEvent('remove')
 // console.log('******')
 
 const treeArray = [
-["lion", "cat"],
-["cat", "mammel"],
-["dog", "mammel"],
-["mammel", "animal"],
-["fish", "animal"],
-["shark", "fish"]
+  ['car', 'vehicle'],
+  ['cart', 'car'],
+  ['vehicle', 'root']
 ]
 
 const result = createTree(treeArray)
 
 console.log(result)
+
+const unsorted = [3,2,4,1]
+const stackked = [5,3,1,2,4]
+sortRecursive(unsorted)
+console.log(unsorted)
+stackSortRecursive(stackked)
+console.log(stackked)
+
+// 3241  -- 324,1 -- 1234
+// 324 -- 32, 4 -- 234
+// 32 --3, 2 -- 23
+// 2 -- 

@@ -369,7 +369,6 @@ export const addArrayListener = (arr) => {
 export const createTree = (array) => {
     const result = []
     console.log(array)
-    let tempArray = array
     array.forEach((item) => {
         const [child, parent] = item
         const start = `${parent}->${child}`
@@ -396,3 +395,4 @@ const makeCycle = (array, elementString) => {
     }
     return cycleString
 }
+
