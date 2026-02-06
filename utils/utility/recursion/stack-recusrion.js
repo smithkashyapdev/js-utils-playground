@@ -20,3 +20,36 @@ export const stackSortRecursive = (stack) => {
     insert(stack, temp)
     return stack
 }
+
+const deleteElemnt = (stack, position) => {
+    if(position === 1) {
+        stack.pop()
+        return
+    }
+    const temp = stack.pop()
+    deleteElemnt(stack, position-1)
+    stack.push(temp)
+}
+
+export const deleteMiddleElementInStack = (stack) => {
+    if(stack.length === 0) {
+        return stack
+    }
+
+   const mid = Math.ceil(stack.length / 2)
+   deleteElemnt(stack, mid)
+   return stack
+
+}
+
+
+export const reverseStackUsingRecursion = (stack) => {
+    if(stack.length === 0) {
+        return
+    }
+    const temp = stack.pop()
+    reverseStackUsingRecursion(stack)
+    stack.unshift(temp)
+    return stack
+
+}

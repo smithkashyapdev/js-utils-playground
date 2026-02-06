@@ -1,7 +1,7 @@
 import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal, format24HourTime, format12Hour, deepFlattenObject, shallowMerge, deepFreeze, deepSeal, BrowserHistory, GroupBy, deepEqual, addArrayListener, createTree } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
 import { sortRecursive } from "./utils/utility/recursion/array-recursion.js";
-import { stackSortRecursive } from "./utils/utility/recursion/stack-recusrion.js";
+import { deleteMiddleElementInStack, reverseStackUsingRecursion, stackSortRecursive } from "./utils/utility/recursion/stack-recusrion.js";
 
 // const fn1 = () =>
 //   new Promise((resolve, reject) => {
@@ -403,6 +403,9 @@ console.log(unsorted)
 stackSortRecursive(stackked)
 console.log(stackked)
 
+const deleteMiddleElementStack = [1,2,3,4,5]
+deleteMiddleElementInStack(deleteMiddleElementStack)
+console.log(reverseStackUsingRecursion(deleteMiddleElementStack))
 // 3241  -- 324,1 -- 1234
 // 324 -- 32, 4 -- 234
 // 32 --3, 2 -- 23
