@@ -1,6 +1,6 @@
 import { MapSerial, FilterAsync, MapLimitBatch, MyPromiseSettled, PromisePool, MyPromiseAll, MyPromiseAny, MyPromiseRace, MyCustomPromise, AsyncSeries, FilterAsyncReject, ResolvePromiseWithPriority, AutoIncrementer, StackMaxMin, debounce, throttle, filterMultiDimensionalArray, memoize, UpiOnboardingManager, UpiOnboardingManagerFn, sumWithLimit, sumtotal, format24HourTime, format12Hour, deepFlattenObject, shallowMerge, deepFreeze, deepSeal, BrowserHistory, GroupBy, deepEqual, addArrayListener, createTree } from "./utils/index.js";
 import { Task, TaskRunner, StackBasedQueue, QueueBasedStack, TwoStackWithSingleArray, LruCache, Node } from './utils/index.js'
-import { sortRecursive } from "./utils/utility/recursion/array-recursion.js";
+import { findKthValueInGrammer, sortRecursive, swipeStack } from "./utils/utility/recursion/array-recursion.js";
 import { deleteMiddleElementInStack, reverseStackUsingRecursion, stackSortRecursive } from "./utils/utility/recursion/stack-recusrion.js";
 
 // const fn1 = () =>
@@ -410,3 +410,11 @@ console.log(reverseStackUsingRecursion(deleteMiddleElementStack))
 // 324 -- 32, 4 -- 234
 // 32 --3, 2 -- 23
 // 2 -- 
+
+const swipeA = [1,2,3]
+const aux = []
+const swipeB = []
+swipeStack(swipeA.length, swipeA, aux, swipeB)
+console.log(swipeB)
+
+console.log(findKthValueInGrammer(3,4))
